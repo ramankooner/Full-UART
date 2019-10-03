@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated   -->
+<!--     by the Xilinx ISE software.  Any direct editing or        -->
+<!--     changes made to this file may result in unpredictable     -->
+<!--     behavior or data corruption.  It is strongly advised that -->
+<!--     users do not edit the contents of this file.              -->
+<!--                                                               -->
+<!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.    -->
+
+<messages>
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/AISOO.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/PositiveEdgeDetector.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/UART.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/addressDecoder.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/baudRates.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/core.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/receive.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/topModule.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/tramelblaze.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/tramelblaze_top_sim.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/transmit.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Users/Sandeep Kooner/Desktop/Old 460 stuff/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/tsi.v&quot; into library work</arg>
+</msg>
+
+</messages>
+

@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\Users\Sandeep Kooner\Desktop\460 Labs\Full_UART_w_Memory\FULL_UART_w_MEM\topModule.ncd
+OUTFILE=C:\Users\Sandeep Kooner\Desktop\460 Labs\Full_UART_w_Memory\FULL_UART_w_MEM\topModule.bit
+FAMILY=Artix7
+PART=xc7a100t-3csg324
+WORKINGDIR=C:\Users\Sandeep Kooner\Desktop\460 Labs\Full_UART_w_Memory\FULL_UART_w_MEM
+LICENSE=WebPack
+USER_INFO=__0_0_0

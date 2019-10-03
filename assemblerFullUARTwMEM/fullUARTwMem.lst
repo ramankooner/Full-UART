@@ -1,0 +1,918 @@
+               ; ASCII LETTERS
+               LTR_A    EQU      0041
+               LTR_B    EQU      0042
+               LTR_C    EQU      0043
+               LTR_D    EQU      0044
+               LTR_E    EQU      0045
+               LTR_F    EQU      0046
+               LTR_G    EQU      0047
+               LTR_H    EQU      0048
+               LTR_I    EQU      0049
+               LTR_J    EQU      004A
+               LTR_K    EQU      004B
+               LTR_L    EQU      004C
+               LTR_M    EQU      004D
+               LTR_N    EQU      004E
+               LTR_O    EQU      004F
+               LTR_P    EQU      0050
+               LTR_Q    EQU      0051
+               LTR_R    EQU      0052
+               LTR_S    EQU      0053
+               LTR_T    EQU      0054
+               LTR_U    EQU      0055
+               LTR_V    EQU      0056
+               LTR_W    EQU      0057
+               LTR_X    EQU      0058
+               LTR_Y    EQU      0059
+               LTR_Z    EQU      005A
+               
+               ; ASCII NUMBERS
+               NUM_0    EQU      0030
+               NUM_1    EQU      0031
+               NUM_2    EQU      0032
+               NUM_3    EQU      0033
+               NUM_4    EQU      0034
+               NUM_5    EQU      0035
+               NUM_6    EQU      0036
+               NUM_7    EQU      0037
+               NUM_8    EQU      0038
+               NUM_9    EQU      0039
+               
+               ; ASCII SYMBOLS
+               CR       EQU      000D
+               LF       EQU      000A
+               
+               SPACE    EQU      0020  
+               DASH     EQU      002D
+               
+               OPENP    EQU      0028
+               CLOSEP   EQU      0029
+               
+               ASTERISK EQU      002A
+               ATSYMBOL EQU      0040
+               COMMA    EQU      002C
+               COLON    EQU      003A
+               PERCENT  EQU      0025
+               
+               BS       EQU      0008
+               
+               RX_DATA  EQU      R1
+               COUNT    EQU      R2
+               COUNTER  EQU      R3
+               POINTER  EQU      R4
+               P_END    EQU      R5
+               DELAY1   EQU      R6
+               DELAY2   EQU      R7
+               LEDS     EQU      R8 
+               STATUS   EQU      RC
+               DATA_IN  EQU      RF
+               
+               ; INITIALIZATION
+               START	
+               		; INITIALIZE TEXT
+                       CALL LOAD_BANNER
+0000 8E00 0045
+                       CALL LOAD_PROMPT
+0002 8E00 00ad
+               		CALL LOAD_HOMETOWN
+0004 8E00 0119
+               		CALL LOAD_BACKSPACE
+0006 8E00 017d
+               		CALL LOAD_COUNT
+0008 8E00 0189
+               		
+               		
+               		LOAD COUNT,  0000
+000A AE02 0000
+               		LOAD COUNTER, 0000
+000C AE03 0000
+               		LOAD STATUS,  0000
+000E AE0C 0000
+               		LOAD RX_DATA, 0000
+0010 AE01 0000
+               
+               		LOAD LEDS,    0001
+0012 AE08 0001
+               		LOAD DELAY1,  0000
+0014 AE06 0000
+               		LOAD DELAY2,  0000
+0016 AE07 0000
+               		
+               		
+               		INPUT DATA_IN, 0002
+0018 A20F 0002
+               		OUTPUT DATA_IN, 0002
+001A B80F 0002
+               		
+               		LOAD POINTER, 0000
+001C AE04 0000
+               		LOAD P_END, 0035
+001E AE05 0035
+               
+               BAN_PROMPT		
+               		INPUT DATA_IN, 0001
+0020 A20F 0001
+               		AND DATA_IN, 0002
+0022 8A0F 0002
+               		COMP DATA_IN, 0002
+0024 980F 0002
+               		JUMPNZ BAN_PROMPT
+0026 AC00 0020
+               		
+               		FETCH  R0, POINTER
+7240
+               		OUTPUT R0, 0000
+0029 B800 0000
+               		ADD    POINTER, 0001
+002B 8204 0001
+               		COMP   POINTER, P_END
+1A54
+               		JUMPNZ BAN_PROMPT
+002E AC00 0020
+               		
+               		ENINT
+0030 1E00               		
+               MAIN
+               		; WALKING LEDS	
+                       OUTPUT  LEDS, 0003    
+0031 B808 0003
+                       RL      LEDS           
+0033 4808
+                       CALL    Delay                   
+0034 8E00 0038
+                       JUMP    Main
+0036 A400 0031
+               
+               DELAY 
+                       ADD     DELAY1, 0001  
+0038 8206 0001
+                       ADDC    DELAY2, 0000   
+003A 8607 0000
+                       COMP    DELAY2, 000F  
+003C 9807 000F
+                       JUMPNZ  DELAY              
+003E AC00 0038
+                       LOAD    DELAY1, 0000  
+0040 AE06 0000
+                       LOAD    DELAY2, 0000
+0042 AE07 0000
+                       RETURN
+0044 3A00               
+               LOAD_BANNER
+               		LOAD  R0, LTR_R
+0045 AE00 0052
+               		STORE R0, 0000
+0047 F400 0000
+               
+               		LOAD  R0, LTR_A
+0049 AE00 0041
+               		STORE R0, 0001
+004B F400 0001
+               	
+               		LOAD  R0, LTR_M
+004D AE00 004D
+               		STORE R0, 0002
+004F F400 0002
+               	
+               		LOAD  R0, LTR_A
+0051 AE00 0041
+               		STORE R0, 0003
+0053 F400 0003
+               
+               		LOAD  R0, LTR_N
+0055 AE00 004E
+               		STORE R0, 0004
+0057 F400 0004
+               
+               		LOAD  R0, SPACE
+0059 AE00 0020
+               		STORE R0, 0005
+005B F400 0005
+               
+               		LOAD  R0, LTR_K
+005D AE00 004B
+               		STORE R0, 0006
+005F F400 0006
+               
+               		LOAD  R0, LTR_O
+0061 AE00 004F
+               		STORE R0, 0007
+0063 F400 0007
+               	
+               		LOAD  R0, LTR_O
+0065 AE00 004F
+               		STORE R0, 0008
+0067 F400 0008
+               
+               		LOAD  R0, LTR_N
+0069 AE00 004E
+               		STORE R0, 0009
+006B F400 0009
+               
+               		LOAD  R0, LTR_E
+006D AE00 0045
+               		STORE R0, 000A
+006F F400 000A
+               
+               		LOAD  R0, LTR_R
+0071 AE00 0052
+               		STORE R0, 000B
+0073 F400 000B
+               
+               		LOAD  R0, SPACE
+0075 AE00 0020
+               		STORE R0, 000C
+0077 F400 000C
+               
+               		LOAD  R0, LTR_C
+0079 AE00 0043
+               		STORE R0, 000D
+007B F400 000D
+               	
+               		LOAD  R0, LTR_E
+007D AE00 0045
+               		STORE R0, 000E
+007F F400 000E
+               		
+               		LOAD  R0, LTR_C
+0081 AE00 0043
+               		STORE R0, 000F
+0083 F400 000F
+               	
+               		LOAD  R0, LTR_S
+0085 AE00 0053
+               		STORE R0, 0010
+0087 F400 0010
+               		
+               		LOAD  R0, SPACE
+0089 AE00 0020
+               		STORE R0, 0011
+008B F400 0011
+               		
+               		LOAD  R0, NUM_4
+008D AE00 0034
+               		STORE R0, 0012
+008F F400 0012
+               	
+               		LOAD  R0, NUM_6
+0091 AE00 0036
+               		STORE R0, 0013
+0093 F400 0013
+               	
+               		LOAD  R0, NUM_0
+0095 AE00 0030
+               		STORE R0, 0014
+0097 F400 0014
+               		
+               		LOAD  R0, SPACE
+0099 AE00 0020
+               		STORE R0, 0015
+009B F400 0015
+               	
+               		LOAD  R0, LTR_U
+009D AE00 0055
+               		STORE R0, 0016
+009F F400 0016
+               	
+               		LOAD  R0, LTR_A
+00A1 AE00 0041
+               		STORE R0, 0017
+00A3 F400 0017
+               	
+               		LOAD  R0, LTR_R
+00A5 AE00 0052
+               		STORE R0, 0018
+00A7 F400 0018
+               	
+               		LOAD  R0, LTR_T
+00A9 AE00 0054
+               		STORE R0, 0019
+00AB F400 0019
+               
+               LOAD_PROMPT
+               		LOAD  R0, CR
+00AD AE00 000D
+               		STORE R0, 001A
+00AF F400 001A
+               		
+               		LOAD  R0, LF
+00B1 AE00 000A
+               		STORE R0, 001B
+00B3 F400 001B
+               		
+               		LOAD  R0, LTR_P
+00B5 AE00 0050
+               		STORE R0, 001C
+00B7 F400 001C
+               		
+               		LOAD  R0, LTR_R
+00B9 AE00 0052
+               		STORE R0, 001D
+00BB F400 001D
+               		
+               		LOAD  R0, LTR_E
+00BD AE00 0045
+               		STORE R0, 001E
+00BF F400 001E
+               		
+               		LOAD  R0, LTR_S
+00C1 AE00 0053
+               		STORE R0, 001F
+00C3 F400 001F
+               		
+               		LOAD  R0, LTR_S
+00C5 AE00 0053
+               		STORE R0, 0020
+00C7 F400 0020
+               		
+               		LOAD  R0, SPACE
+00C9 AE00 0020
+               		STORE R0, 0021
+00CB F400 0021
+               		
+               		LOAD  R0, LTR_A
+00CD AE00 0041
+               		STORE R0, 0022
+00CF F400 0022
+               		
+               		LOAD  R0, SPACE
+00D1 AE00 0020
+               		STORE R0, 0023
+00D3 F400 0023
+               		
+               		LOAD  R0, LTR_K
+00D5 AE00 004B
+               		STORE R0, 0024
+00D7 F400 0024
+               	
+               		LOAD  R0, LTR_E
+00D9 AE00 0045
+               		STORE R0, 0025
+00DB F400 0025
+               		
+               		LOAD  R0, LTR_Y
+00DD AE00 0059
+               		STORE R0, 0026
+00DF F400 0026
+               		
+               		LOAD  R0, COLON
+00E1 AE00 003A
+               		STORE R0, 0027
+00E3 F400 0027
+               		
+               		LOAD  R0, SPACE
+00E5 AE00 0020
+               		STORE R0, 0028
+00E7 F400 0028
+               		
+               		LOAD  R0, OPENP
+00E9 AE00 0028
+               		STORE R0, 0029
+00EB F400 0029
+               		
+               		LOAD  R0, ASTERISK
+00ED AE00 002A
+               		STORE R0, 002A
+00EF F400 002A
+               	
+               		LOAD  R0, COMMA
+00F1 AE00 002C
+               		STORE R0, 002B
+00F3 F400 002B
+               		
+               		LOAD  R0, ATSYMBOL
+00F5 AE00 0040
+               		STORE R0, 002C
+00F7 F400 002C
+               	
+               		LOAD  R0, COMMA
+00F9 AE00 002C
+               		STORE R0, 002D
+00FB F400 002D
+               		
+               		LOAD  R0, LTR_B
+00FD AE00 0042
+               		STORE R0, 002E
+00FF F400 002E
+               		
+               		LOAD  R0, LTR_S
+0101 AE00 0053
+               		STORE R0, 002F
+0103 F400 002F
+               		
+               		LOAD  R0, COMMA
+0105 AE00 002C
+               		STORE R0, 0030
+0107 F400 0030
+               	
+               		LOAD  R0, LTR_C
+0109 AE00 0043
+               		STORE R0, 0031
+010B F400 0031
+               		
+               		LOAD  R0, LTR_R
+010D AE00 0052
+               		STORE R0, 0032
+010F F400 0032
+               		
+               		LOAD  R0, CLOSEP
+0111 AE00 0029
+               		STORE R0, 0033
+0113 F400 0033
+               		
+               		LOAD  R0, SPACE
+0115 AE00 0020
+               		STORE R0, 0034
+0117 F400 0034
+               	
+               LOAD_HOMETOWN
+               		LOAD  R0, LTR_H
+0119 AE00 0048
+               		STORE R0, 0035
+011B F400 0035
+               	
+               		LOAD  R0, LTR_O
+011D AE00 004F
+               		STORE R0, 0036
+011F F400 0036
+               		
+               		LOAD  R0, LTR_M
+0121 AE00 004D
+               		STORE R0, 0037
+0123 F400 0037
+               	
+               		LOAD  R0, LTR_E
+0125 AE00 0045
+               		STORE R0, 0038
+0127 F400 0038
+               		
+               		LOAD  R0, SPACE
+0129 AE00 0020
+               		STORE R0, 0039
+012B F400 0039
+               		
+               		LOAD  R0, LTR_T
+012D AE00 0054
+               		STORE R0, 003A
+012F F400 003A
+               		
+               		LOAD  R0, LTR_O
+0131 AE00 004F
+               		STORE R0, 003B
+0133 F400 003B
+               		
+               		LOAD  R0, LTR_W
+0135 AE00 0057
+               		STORE R0, 003C
+0137 F400 003C
+               		
+               		LOAD  R0, LTR_N
+0139 AE00 004E
+               		STORE R0, 003D
+013B F400 003D
+               		
+               		LOAD  R0, COLON
+013D AE00 003A
+               		STORE R0, 003E
+013F F400 003E
+               	
+               		LOAD  R0, SPACE
+0141 AE00 0020
+               		STORE R0, 003F
+0143 F400 003F
+               		
+               		LOAD  R0, LTR_L
+0145 AE00 004C
+               		STORE R0, 0040
+0147 F400 0040
+               		
+               		LOAD  R0, LTR_O
+0149 AE00 004F
+               		STORE R0, 0041
+014B F400 0041
+               		
+               		LOAD  R0, LTR_N
+014D AE00 004E
+               		STORE R0, 0042
+014F F400 0042
+               	
+               		LOAD  R0, LTR_G
+0151 AE00 0047
+               		STORE R0, 0043
+0153 F400 0043
+               
+               		LOAD  R0, SPACE
+0155 AE00 0020
+               		STORE R0, 0044
+0157 F400 0044
+               		
+               		LOAD  R0, LTR_B
+0159 AE00 0042
+               		STORE R0, 0045
+015B F400 0045
+               		
+               		LOAD  R0, LTR_E
+015D AE00 0045
+               		STORE R0, 0046
+015F F400 0046
+               		
+               		LOAD  R0, LTR_A
+0161 AE00 0041
+               		STORE R0, 0047
+0163 F400 0047
+               		
+               		LOAD  R0, LTR_C
+0165 AE00 0043
+               		STORE R0, 0048
+0167 F400 0048
+               		
+               		LOAD  R0, LTR_H
+0169 AE00 0048
+               		STORE R0, 0049
+016B F400 0049
+               		
+               		LOAD  R0, COMMA
+016D AE00 002C
+               		STORE R0, 004A
+016F F400 004A
+               		
+               		LOAD  R0, SPACE
+0171 AE00 0020
+               		STORE R0, 004B
+0173 F400 004B
+               	
+               		LOAD  R0, LTR_C
+0175 AE00 0043
+               		STORE R0, 004C
+0177 F400 004C
+               		
+               		LOAD  R0, LTR_A
+0179 AE00 0041
+               		STORE R0, 004D
+017B F400 004D
+               		
+               LOAD_BACKSPACE
+               		LOAD  R0, BS
+017D AE00 0008
+               		STORE R0, 004E
+017F F400 004E
+               		
+               		LOAD  R0, SPACE
+0181 AE00 0020
+               		STORE R0, 004F
+0183 F400 004F
+               		
+               		LOAD  R0, BS
+0185 AE00 0008
+               		STORE R0, 0050
+0187 F400 0050
+               		
+               LOAD_COUNT
+               		LOAD  R0, LTR_C
+0189 AE00 0043
+               		STORE R0, 0052
+018B F400 0052
+               		
+               		LOAD  R0, LTR_O
+018D AE00 004F
+               		STORE R0, 0053
+018F F400 0053
+               		
+               		LOAD  R0, LTR_U
+0191 AE00 0055
+               		STORE R0, 0054
+0193 F400 0054
+               		
+               		LOAD  R0, LTR_N
+0195 AE00 004E
+               		STORE R0, 0055
+0197 F400 0055
+               		
+               		LOAD  R0, LTR_T
+0199 AE00 0054
+               		STORE R0, 0056
+019B F400 0056
+               		
+               		LOAD  R0, COLON
+019D AE00 003A
+               		STORE R0, 0057
+019F F400 0057
+               		
+               		LOAD  R0, SPACE
+01A1 AE00 0020
+               		STORE R0, 0058
+01A3 F400 0058
+               		
+               		STORE R0, 0059
+01A5 F400 0059
+               		STORE R0, 005A
+01A7 F400 005A
+               		STORE R0, 005B
+01A9 F400 005B
+               		STORE R0, 005C
+01AB F400 005C
+               		STORE R0, 005D
+01AD F400 005D
+               
+               BIN_TO_ASCII
+                       LOAD    RE, COUNTER 
+303E
+                       
+                       LOAD    RD, 2710    
+01B0 AE0D 2710
+                       CALL    FIND_IT       
+01B2 8E00 01d5
+                       ADD     RB, 0030       
+01B4 820B 0030
+                       STORE   RB, 0059       
+01B6 F40B 0059
+               
+                       LOAD    RD, 03E8       
+01B8 AE0D 03E8
+                       CALL    FIND_IT        
+01BA 8E00 01d5
+                       ADD     RB, 0030       
+01BC 820B 0030
+                       STORE   RB, 005A    
+01BE F40B 005A
+                       
+                       LOAD    RD, 0064      
+01C0 AE0D 0064
+                       CALL    FIND_IT        
+01C2 8E00 01d5
+                       ADD     RB, 0030       
+01C4 820B 0030
+                       STORE   RB, 005B      
+01C6 F40B 005B
+                       
+                       LOAD    RD, 000A      
+01C8 AE0D 000A
+                       CALL    FIND_IT        
+01CA 8E00 01d5
+                       ADD     RB, 0030     
+01CC 820B 0030
+                       STORE   RB, 005C     
+01CE F40B 005C
+               
+                       ADD     RE, 0030       
+01D0 820E 0030
+                       STORE   RE, 005D
+01D2 F40E 005D
+                       
+                       RETURN 
+01D4 3A00                          
+               FIND_IT
+                       LOAD    RB, 0000
+01D5 AE0B 0000
+               
+               FIND_IT2
+                       SUB     RE, RD 
+5EDE
+                       JUMPC   FIND_IT3
+01D8 A600 01de
+                       ADD     RB, 0001
+01DA 820B 0001
+                       JUMP    FIND_IT2
+01DC A400 01d7
+               
+               FIND_IT3
+                       ADD     RE, RD 
+04DE
+                       RETURN 
+01DF 3A00                 
+               ISR 		
+               		INPUT DATA_IN, 0001
+01E0 A20F 0001
+               		AND DATA_IN, 0001
+01E2 8A0F 0001
+               		COMP DATA_IN, 0001
+01E4 980F 0001
+               		JUMPZ RX_RDY
+01E6 AA00 0258
+               		RETEN 
+01E8 4600               
+               CR_TRANSMIT
+               		LOAD COUNT, 0000
+01E9 AE02 0000
+               		LOAD POINTER, 001A
+01EB AE04 001A
+               		LOAD P_END, 0035
+01ED AE05 0035
+               		
+               CR_LOOP 
+               		INPUT  DATA_IN, 0001
+01EF A20F 0001
+               		AND DATA_IN, 0002
+01F1 8A0F 0002
+               		COMP DATA_IN, 0002
+01F3 980F 0002
+               		JUMPNZ CR_LOOP
+01F5 AC00 01ef
+               		
+               		FETCH R0, POINTER
+7240
+               		OUTPUT R0, 0000
+01F8 B800 0000
+               		ADD POINTER, 0001
+01FA 8204 0001
+               		COMP POINTER, P_END
+1A54
+               		JUMPNZ CR_LOOP
+01FD AC00 01ef
+               		RETURN
+01FF 3A00                 
+               HOMETOWN_TRANSMIT
+               		LOAD COUNT, 0000
+0200 AE02 0000
+               		LOAD POINTER, 0035
+0202 AE04 0035
+               		LOAD P_END, 004F
+0204 AE05 004F
+               		
+               HOMETOWN_LOOP
+               		INPUT  DATA_IN, 0001
+0206 A20F 0001
+               		AND DATA_IN, 0002
+0208 8A0F 0002
+               		COMP DATA_IN, 0002
+020A 980F 0002
+               		JUMPNZ HOMETOWN_LOOP
+020C AC00 0206
+               		
+               		FETCH R0, POINTER
+7240
+               		OUTPUT R0, 0000
+020F B800 0000
+               		ADD POINTER, 0001
+0211 8204 0001
+               		COMP POINTER, P_END
+1A54
+               		JUMPNZ HOMETOWN_LOOP
+0214 AC00 0206
+               		CALL CR_TRANSMIT
+0216 8E00 01e9
+               		RETURN
+0218 3A00               
+               COUNT_TRANSMIT
+               		CALL BIN_TO_ASCII
+0219 8E00 01af
+               		LOAD COUNT, 0000
+021B AE02 0000
+               		LOAD POINTER, 0052
+021D AE04 0052
+               		LOAD P_END, 005E
+021F AE05 005E
+               		
+               COUNT_LOOP
+               		INPUT DATA_IN, 0001
+0221 A20F 0001
+               		AND DATA_IN, 0002
+0223 8A0F 0002
+               		COMP DATA_IN, 0002
+0225 980F 0002
+               		JUMPNZ COUNT_LOOP
+0227 AC00 0221
+               		
+               		FETCH R0, POINTER
+7240
+               		OUTPUT R0, 0000
+022A B800 0000
+               		ADD POINTER, 0001
+022C 8204 0001
+               		COMP POINTER, P_END
+1A54
+               		JUMPNZ COUNT_LOOP
+022F AC00 0221
+               		CALL CR_TRANSMIT
+0231 8E00 01e9
+               		RETURN
+0233 3A00               
+               
+               PERCENT_TRANSMIT
+               		LOAD COUNT, 0000
+0234 AE02 0000
+               
+               PERCENT_LOOP
+               		INPUT DATA_IN, 0001
+0236 A20F 0001
+               		AND DATA_IN, 0002
+0238 8A0F 0002
+               		COMP DATA_IN, 0002
+023A 980F 0002
+               		JUMPNZ PERCENT_LOOP
+023C AC00 0236
+               		
+               		
+               BACKSPACE_TRANSMIT
+               		COMP COUNT, 0000
+023E 9802 0000
+               		RETURNZ
+0240 4000               		LOAD POINTER, 004E
+0241 AE04 004E
+               		LOAD P_END, 0051
+0243 AE05 0051
+               		
+               BACKSPACE_LOOP
+               		INPUT  DATA_IN, 0001
+0245 A20F 0001
+               		AND DATA_IN, 0002
+0247 8A0F 0002
+               		COMP DATA_IN, 0002
+0249 980F 0002
+               		JUMPNZ BACKSPACE_LOOP
+024B AC00 0245
+               		
+               		FETCH R0, POINTER
+7240
+               		OUTPUT R0, 0000
+024E B800 0000
+               		ADD POINTER, 0001
+0250 8204 0001
+               		COMP POINTER, P_END
+1A54
+               		JUMPNZ BACKSPACE_LOOP
+0253 AC00 0245
+               		SUB COUNT, 0001
+0255 DC02 0001
+               		RETURN
+0257 3A00               
+               
+               RX_RDY 
+               		ADD COUNTER, 0001
+0258 8203 0001
+               		INPUT RX_DATA, 0000
+025A A201 0000
+               
+               RX_HOMETOWN
+               		COMP RX_DATA, ASTERISK
+025C 9801 002A
+               		JUMPNZ RX_COUNT
+025E AC00 0264
+               		CALL HOMETOWN_TRANSMIT
+0260 8E00 0200
+               		JUMP RECEIVED_DATA
+0262 A400 0290
+               
+               RX_COUNT
+               		COMP RX_DATA, ATSYMBOL
+0264 9801 0040
+               		JUMPNZ RX_BACKSPACE
+0266 AC00 026c
+               		CALL COUNT_TRANSMIT
+0268 8E00 0219
+               		JUMP RECEIVED_DATA
+026A A400 0290
+               
+               RX_BACKSPACE
+               		COMP RX_DATA, BS
+026C 9801 0008
+               		JUMPNZ RX_CR
+026E AC00 0274
+               		CALL BACKSPACE_TRANSMIT
+0270 8E00 023e
+               		JUMP RECEIVED_DATA
+0272 A400 0290
+               
+               RX_CR
+               		COMP RX_DATA, CR
+0274 9801 000D
+               		JUMPNZ RX_PERCENT
+0276 AC00 027c
+               		CALL CR_TRANSMIT
+0278 8E00 01e9
+               		JUMP RECEIVED_DATA
+027A A400 0290
+               		
+               RX_PERCENT
+               		COMP RX_DATA, PERCENT
+027C 9801 0025
+               		JUMPNZ WAIT_STATE
+027E AC00 0284
+               		CALL PERCENT_TRANSMIT
+0280 8E00 0234
+               		JUMP RECEIVED_DATA
+0282 A400 0290
+               		
+               WAIT_STATE	
+               		ADD COUNT, 0001
+0284 8202 0001
+               		OUTPUT RX_DATA, 0000
+0286 B801 0000
+               		COMP COUNT, 0028
+0288 9802 0028
+               		JUMPNZ RECEIVED_DATA
+028A AC00 0290
+               		LOAD COUNT, 0000
+028C AE02 0000
+               		CALL CR_TRANSMIT
+028E 8E00 01e9
+               		
+               RECEIVED_DATA
+               		RETEN
+0290 4600               				
+               		ADDRESS 0FFE
+               ENDIT   
+                       JUMP    ISR 
+0FFE A400 01e0
+                       
+                       END 

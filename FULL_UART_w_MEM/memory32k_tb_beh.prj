@@ -1,0 +1,3 @@
+verilog work "ipcore_dir/staticRAM.v"
+verilog work "memory32k_tb.v"
+verilog work "C:/Users/Public/14.7/ISE_DS/ISE//verilog/src/glbl.v"

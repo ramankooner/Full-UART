@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "C:/Users/Sandeep Kooner/Desktop/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/memory32k_tb_isim_beh.exe" -prj "C:/Users/Sandeep Kooner/Desktop/460 Labs/Full_UART_w_Memory/FULL_UART_w_MEM/memory32k_tb_beh.prj" "work.memory32k_tb" "work.glbl" 
